@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /en/404
+
+Sitemap: https://eminboydak.com/sitemap-index.xml

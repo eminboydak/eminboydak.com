@@ -1,0 +1,98 @@
+---
+import Badge from './Badge.astro';
+import type { Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import type { Dictionary } from '../i18n/tr';
+import type { Locale } from '../i18n';
+import { localePath } from '../i18n';
+
+interface Props {
+  page: Page<CollectionEntry<'posts'>>;
+  locale: Locale;
+  t: Dictionary;
+  activeTag?: string;
+}
+
+const { page, locale, t, activeTag } = Astro.props;
+const b = t.blog;
+const blogBase = localePath(locale, '/blog');
+const tags = ['linux', 'git', 'arch', 'matlab', 'dotfiles'];
+
+const intlLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
+const dayFmt = new Intl.DateTimeFormat(intlLocale, { day: '2-digit' });
+const monthFmt = new Intl.DateTimeFormat(intlLocale, { month: 'short' });
+const yearFmt = new Intl.DateTimeFormat(intlLocale, { year: 'numeric' });
+
+function readTime(entry: CollectionEntry<'posts'>): string {
+  const words = (entry.body ?? '').split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 200))} ${b.readTime}`;
+}
+---
+
+<div class="max-w-[1100px] mx-auto px-6 py-12">
+  <!-- tag filter -->
+  <div class="flex flex-wrap gap-2 my-8">
+    <a
+      href={blogBase}
+      class:list={['badge badge-soft px-2 py-0.5 transition-colors', !activeTag && 'badge-success']}
+    >
+      {b.all}
+    </a>
+    {tags.map((tag) => (
+      <a
+        href={`${blogBase}/tag/${tag}`}
+        class:list={['badge badge-soft px-2 py-0.5 transition-colors', activeTag === tag && 'badge-success']}
+      >
+        {tag}
+      </a>
+    ))}
+  </div>
+
+  <!-- post list -->
+  <div>
+    {page.data.map((p) => (
+      <article class="grid grid-cols-[72px_1fr_auto] gap-6 items-center py-6 border-b border-base-300">
+        <div class="flex flex-col items-center gap-0.5 leading-none">
+          <span class="font-display text-2xl font-bold text-base-content">{dayFmt.format(p.data.publishDate)}</span>
+          <span class="font-mono text-[10px] tracking-[0.18em] uppercase text-base-content/60">
+            {monthFmt.format(p.data.publishDate)}
+          </span>
+          <span class="font-mono text-[10px] tracking-[0.18em] text-base-content/40">
+            {yearFmt.format(p.data.publishDate)}
+          </span>
+        </div>
+        <div>
+          <h2 class="font-display font-bold text-xl mb-1">
+            <a href={`${blogBase}/${p.id}`} class="text-base-content hover:text-primary transition-colors">
+              {p.data.title}
+            </a>
+          </h2>
+          <p class="text-sm text-base-content/70 max-w-2xl mb-2">{p.data.description}</p>
+          <div class="flex flex-wrap gap-2">
+            {p.data.tags.filter((tag) => tag !== 'tr').map((tag, i) => (
+              <Badge variant={i === 0 ? 'primary' : 'default'}>{tag}</Badge>
+            ))}
+          </div>
+        </div>
+        <span class="font-mono text-xs text-base-content/60 tracking-wide">{readTime(p)}</span>
+      </article>
+    ))}
+  </div>
+
+  <!-- pagination -->
+  {page.lastPage > 1 && (
+    <div class="flex gap-4 justify-center my-9 font-mono text-sm text-base-content/60">
+      {page.url.prev ? (
+        <a href={page.url.prev} class="hover:text-primary transition-colors">{b.prev}</a>
+      ) : (
+        <span class="opacity-30">{b.prev}</span>
+      )}
+      <span>{page.currentPage} / {page.lastPage}</span>
+      {page.url.next ? (
+        <a href={page.url.next} class="hover:text-primary transition-colors">{b.next}</a>
+      ) : (
+        <span class="opacity-30">{b.next}</span>
+      )}
+    </div>
+  )}
+</div>

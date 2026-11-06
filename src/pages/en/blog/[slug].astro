@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Badge from '../../../components/Badge.astro';
+import { en } from '../../../i18n/en';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('postsEn');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateStr = [
+  new Intl.DateTimeFormat('en-US', { day: '2-digit' }).format(post.data.publishDate),
+  new Intl.DateTimeFormat('en-US', { month: 'short' }).format(post.data.publishDate),
+  new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(post.data.publishDate),
+].join(' ');
+---
+
+<BaseLayout locale="en" t={en} title={post.data.title} description={post.data.description}>
+  <section class="border-b border-base-300">
+    <div class="max-w-[760px] mx-auto px-6 py-[72px]">
+      <a href="/en/blog" class="font-mono text-xs text-base-content/60 hover:text-primary transition-colors">
+        {en.blog.back}
+      </a>
+      <h1 class="font-display font-extrabold text-4xl md:text-5xl mt-6 mb-4 leading-tight">
+        {post.data.title}
+      </h1>
+      <div class="flex flex-wrap items-center gap-3 mb-10">
+        <span class="font-mono text-xs text-base-content/60">{dateStr}</span>
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.filter((t) => t !== 'en').map((t) => (
+            <Badge>{t}</Badge>
+          ))}
+        </div>
+      </div>
+      <div class="prose prose-invert prose-lg max-w-none font-body">
+        <Content />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

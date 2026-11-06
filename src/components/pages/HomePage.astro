@@ -1,0 +1,165 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../Section.astro';
+import Card from '../Card.astro';
+import Badge from '../Badge.astro';
+import Icon from '../Icon.astro';
+import type { Dictionary } from '../../i18n/tr';
+import type { Locale } from '../../i18n';
+import { localePath } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const h = t.home;
+const blogHref = localePath(locale, '/blog');
+const projectsHref = localePath(locale, '/projects');
+
+const revealClasses = [
+  'reveal reveal-1',
+  'reveal reveal-2',
+  'reveal reveal-3',
+  'reveal reveal-4',
+] as const;
+---
+
+<BaseLayout locale={locale} t={t} description={t.meta.homeDescription}>
+  <!-- Hero -->
+  <section class="border-b border-base-300">
+    <div class="max-w-[1100px] mx-auto px-6 py-[96px] md:pt-[96px] md:pb-[72px]">
+      <p class="font-mono text-xs tracking-[0.25em] uppercase text-primary mb-5">{h.hero.eyebrow}</p>
+      <h1 class="font-display font-extrabold text-5xl md:text-7xl leading-[1.05] mb-6">
+        {h.hero.before} <em class="not-italic text-primary">{h.hero.highlight}</em>.<br />{h.hero.after}
+      </h1>
+      <p class="text-xl text-base-content/70 max-w-2xl mb-9">
+        {h.hero.subtitleLead}{' '}
+        <strong class="text-base-content font-semibold">{h.hero.subtitleStrong}</strong>{' '}
+        {h.hero.subtitleTail}
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <a href={projectsHref} class="btn btn-primary">{h.hero.ctaProjects}</a>
+        <a href={blogHref} class="btn btn-ghost">{h.hero.ctaBlog}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <Section id="about" title={h.about.title} sub={h.about.sub} reveal>
+    <p class="text-lg text-base-content/70 max-w-2xl">
+      {h.about.lead} <strong class="text-base-content">{h.about.leadStrong}</strong> {h.about.mid}{' '}
+      <strong class="text-base-content">{h.about.midStrongA} {h.about.midStrongB} {h.about.midStrongC}</strong>{' '}
+      {h.about.tail} <strong class="text-base-content">{h.about.tailStrong}</strong>. {h.about.end}
+    </p>
+  </Section>
+
+  <!-- Work -->
+  <Section id="work" title={h.work.title} sub={h.work.sub} reveal>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {h.work.cards.map((c, i) => (
+        <Card class={revealClasses[i]}>
+          <Icon name={c.icon} />
+          <h3 class="font-display font-bold text-lg mb-2">{c.title}</h3>
+          <p class="text-sm text-base-content/70 grow">{c.desc}</p>
+          <div class="flex flex-wrap gap-2 mt-auto pt-4">
+            {c.tags.map((tag, j) => (
+              <Badge variant={j === 0 ? 'primary' : 'default'}>{tag}</Badge>
+            ))}
+          </div>
+        </Card>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Projects -->
+  <Section id="projects" title={h.projects.title} sub={h.projects.sub} reveal>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      {h.projects.cards.map((c, i) => (
+        <Card class={revealClasses[i]}>
+          {c.icon === 'stancona' ? (
+            <img src="/stancona-s.svg" alt={`${c.title} monogram`} class="w-8 h-8 mb-4" />
+          ) : (
+            <Icon name={c.icon} />
+          )}
+          <h3 class="font-display font-bold text-lg mb-2">{c.title}</h3>
+          <p class="text-sm text-base-content/70 mb-3 grow">
+            <strong class="text-base-content">{c.problemLabel}</strong> {c.problem}{' '}
+            <strong class="text-base-content">{c.solutionLabel}</strong> {c.solutionLead}{' '}
+            <strong class="text-base-content">{c.solutionStrong}</strong> {c.solutionTail}
+          </p>
+          <p class="font-mono text-xs text-accent mb-4">{c.role}</p>
+          <div class="flex flex-wrap gap-2 mt-auto pt-4">
+            {c.tags.map((tag, j) => (
+              <Badge variant={j === 0 ? 'primary' : 'default'}>{tag}</Badge>
+            ))}
+          </div>
+        </Card>
+      ))}
+    </div>
+    <div class="mt-8 border-t border-dashed border-base-300 pt-4 font-mono text-xs text-base-content/60 tracking-wide">
+      {h.projects.noteLead} <span class="text-accent">{h.projects.noteStrong}</span> {h.projects.noteTail}
+    </div>
+  </Section>
+
+  <!-- Hobbies -->
+  <Section id="hobbies" title={h.hobbies.title} sub={h.hobbies.sub} reveal>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {h.hobbies.cards.map((c, i) => (
+        <Card class={revealClasses[i]}>
+          <Icon name={c.icon} />
+          <h3 class="font-display font-bold text-lg mb-2">{c.title}</h3>
+          <p class="text-sm text-base-content/70 grow">
+            {c.desc}
+            {c.descStrong && <strong class="text-base-content"> {c.descStrong}</strong>}
+            {c.descTail && <> {c.descTail}</>}
+          </p>
+          {c.note && (
+            <p class="mt-3 border-t border-dashed border-base-300 pt-3 text-xs text-base-content/60 italic">
+              {c.note}
+            </p>
+          )}
+          <div class="flex flex-wrap gap-2 mt-auto pt-4">
+            {c.tags.map((tag, j) => (
+              <Badge variant={j === 0 ? 'primary' : 'default'}>{tag}</Badge>
+            ))}
+          </div>
+        </Card>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Contact -->
+  <Section id="contact" title={h.contact.title} sub={h.contact.sub} reveal>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
+      {h.contact.links.map((l) => {
+        const href = l.href.startsWith('/') ? localePath(locale, l.href) : l.href;
+        return (
+          <a
+            href={href}
+            class="flex items-center gap-4 p-4 border border-base-300 rounded-box hover:border-primary hover:bg-base-200 transition-colors"
+          >
+            <Icon name={l.icon} className="w-5 h-5 text-primary shrink-0" />
+            <span class="min-w-0">
+              <strong class="block text-base-content font-semibold">{l.title}</strong>
+              <span class="block font-mono text-xs text-base-content/60 truncate">{l.value}</span>
+            </span>
+          </a>
+        );
+      })}
+      <a
+        href={h.contact.stancona.href}
+        target="_blank"
+        rel="noopener"
+        class="flex items-center gap-4 p-4 border border-base-300 rounded-box hover:border-primary hover:bg-base-200 transition-colors sm:col-span-2"
+      >
+        <img src="/stancona-s.svg" alt={`${h.contact.stancona.title} monogram`} class="w-7 h-7 shrink-0" />
+        <span class="min-w-0">
+          <strong class="block text-base-content font-semibold">{h.contact.stancona.title}</strong>
+          <span class="block font-mono text-xs text-base-content/60 truncate">{h.contact.stancona.value}</span>
+        </span>
+      </a>
+    </div>
+  </Section>
+</BaseLayout>

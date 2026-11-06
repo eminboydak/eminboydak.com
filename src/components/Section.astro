@@ -1,0 +1,18 @@
+---
+interface Props {
+  id?: string;
+  title?: string;
+  sub?: string;
+  reveal?: boolean;
+}
+
+const { id, title, sub, reveal = false } = Astro.props;
+---
+
+<section id={id} class="border-b border-base-300">
+  <div class:list={['max-w-[1100px] mx-auto px-6 py-[72px]', reveal && 'reveal']}>
+    {title && <h2 class="font-display font-bold text-3xl mb-2">{title}</h2>}
+    {sub && <p class="font-mono text-sm uppercase tracking-[0.08em] text-base-content/60 mb-10">{sub}</p>}
+    <slot />
+  </div>
+</section>

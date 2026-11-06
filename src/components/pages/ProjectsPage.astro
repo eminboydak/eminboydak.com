@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../Section.astro';
+import Badge from '../Badge.astro';
+import Icon from '../Icon.astro';
+import type { Dictionary } from '../../i18n/tr';
+import type { Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const p = t.projectsPage;
+---
+
+<BaseLayout locale={locale} t={t} title={t.meta.projects} description={t.meta.projectsDescription}>
+  <Section id="projects" title={p.title} sub={p.sub}>
+    <p class="text-xl text-base-content/70 max-w-2xl">{p.lead}</p>
+  </Section>
+
+  <div class="max-w-[1100px] mx-auto px-6">
+    {p.cards.map((c) => (
+      <div class="py-14 border-b border-base-300">
+        <div class="flex justify-between items-baseline flex-wrap gap-3 mb-4">
+          <h2 class="font-display font-bold text-2xl">{c.title}</h2>
+          <span class="font-mono text-xs text-accent tracking-wide">{c.role}</span>
+        </div>
+
+        {c.icon === 'stancona' ? (
+          <img src="/stancona-s.svg" alt={`${c.title} monogram`} class="w-8 h-8 mb-4" />
+        ) : (
+          <Icon name={c.icon} />
+        )}
+
+        <p class="text-base-content/70 max-w-3xl mb-5 leading-relaxed">
+          <span class="font-mono text-sm text-accent">{p.problemLabel} →</span>{' '}
+          <strong class="text-base-content">{c.problem}</strong><br />
+          <span class="font-mono text-sm text-success">{p.solutionLabel} →</span>{' '}
+          {c.solutionLead}
+          {c.solutionStrong && <strong class="text-base-content"> {c.solutionStrong}</strong>}
+          {c.solutionMid && <> {c.solutionMid}</>}<br />
+          <span class="font-mono text-sm text-info">{p.toolsLabel} →</span> {c.tools}
+          {c.toolsTail && <>{c.toolsTail}</>}.<br />
+          <span class="font-mono text-sm text-info">{p.resultLabel} →</span> {c.resultLead}{' '}
+          {c.resultTail}
+        </p>
+
+        <div class="flex flex-wrap gap-2">
+          {c.tags.map((tag, j) => (
+            <Badge variant={j === 0 ? 'primary' : 'default'}>{tag}</Badge>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="py-10 font-mono text-xs text-base-content/60 tracking-wide border-b border-base-300">
+      {p.noteLead} <span class="text-accent">{p.noteStrong}</span> {p.noteTail}
+    </div>
+  </div>
+</BaseLayout>

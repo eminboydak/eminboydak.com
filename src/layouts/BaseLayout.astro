@@ -1,0 +1,144 @@
+---
+import '../styles/global.css';
+import type { Dictionary } from '../i18n/tr';
+import type { Locale } from '../i18n';
+import { localePath, stripLocale, SITE_URL, FAVICON_VERSION } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { title, description, locale, t } = Astro.props;
+
+const route = stripLocale(Astro.url.pathname);
+const isEn = locale === 'en';
+const otherLocale: Locale = isEn ? 'tr' : 'en';
+const switchPath = localePath(otherLocale, route);
+const year = new Date().getFullYear();
+
+const nav = [
+  { href: localePath(locale, '/projects'), label: t.nav.projects, key: '/projects' },
+  { href: localePath(locale, '/blog'), label: t.nav.blog, key: '/blog' },
+];
+
+const trUrl = SITE_URL + route;
+const enUrl = SITE_URL + localePath('en', route);
+
+const pageTitle = title ? `${title} · emin boydak` : 'emin boydak';
+const pageDescription = description ?? t.meta.homeDescription;
+const canonical = isEn ? enUrl : trUrl;
+const ogLocale = locale === 'tr' ? 'tr_TR' : 'en_US';
+const ogLocaleAlternate = locale === 'tr' ? 'en_US' : 'tr_TR';
+const ogImage = `${SITE_URL}/og.png`;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Emin Boydak',
+  url: SITE_URL,
+  image: ogImage,
+  sameAs: [
+    'https://github.com/eminboydak',
+    'https://linkedin.com/in/eminboydak',
+    'https://instagram.com/brokk.heartheller',
+    'https://youtube.com/@eminboydak',
+  ],
+  jobTitle: locale === 'tr' ? 'Sistem Mühendisi' : 'Systems Engineer',
+  description: t.meta.homeDescription,
+};
+---
+
+<!doctype html>
+<html lang={t.htmlLang} data-theme="onyx">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageDescription} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="tr" href={trUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={trUrl} />
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="emin boydak" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlternate} />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImage} />
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    <link rel="icon" type="image/svg+xml" href={`/favicon.svg?v=${FAVICON_VERSION}`} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`/favicon-32x32.png?v=${FAVICON_VERSION}`} />
+    <link rel="icon" type="image/png" sizes="16x16" href={`/favicon-16x16.png?v=${FAVICON_VERSION}`} />
+    <link rel="shortcut icon" href={`/favicon.ico?v=${FAVICON_VERSION}`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`/apple-touch-icon.png?v=${FAVICON_VERSION}`} />
+    <title>{title ? `${title} · emin boydak` : 'emin boydak'}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-50 bg-base-100/85 backdrop-blur border-b border-base-300">
+      <div class="max-w-[1100px] mx-auto px-6 h-16 flex items-center justify-between">
+        <a href={localePath(locale, '/')} class="font-display font-bold text-lg tracking-wide text-base-content">
+          emin boydak
+        </a>
+        <nav class="flex items-center gap-5">
+          {nav.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                'text-sm transition-colors',
+                route === item.key || route.startsWith(item.key + '/')
+                  ? 'text-primary'
+                  : 'text-base-content/60 hover:text-primary',
+              ]}
+            >
+              {item.label}
+            </a>
+          ))}
+          <a
+            href={switchPath}
+            class="text-sm text-base-content/60 hover:text-primary transition-colors font-mono text-xs border border-base-300 px-2 py-0.5"
+          >
+            {t.nav.switchLabel}
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-base-300 font-mono text-xs text-base-content/60">
+      <div class="max-w-[1100px] mx-auto px-6 py-9 flex flex-wrap items-center justify-between gap-3">
+        <span class="font-display text-base text-base-content tracking-wide">emin boydak</span>
+        <span>
+          © {year} · <a href={localePath(locale, '/legal')} class="hover:text-primary transition-colors">{t.footer.legal}</a> · {t.footer.stack}
+        </span>
+      </div>
+    </footer>
+    <script is:inline>
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+    </script>
+  </body>
+</html>

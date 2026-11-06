@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../Section.astro';
+import type { Dictionary } from '../../i18n/tr';
+import type { Locale } from '../../i18n';
+import { localePath } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const n = t.notFound;
+---
+
+<BaseLayout locale={locale} t={t} title={t.notFound.title} description={t.notFound.lead}>
+  <Section id="not-found" title={n.title} sub={n.sub}>
+    <div class="max-w-2xl">
+      <p class="text-lg text-base-content/70 mb-9">{n.lead}</p>
+      <div class="flex flex-wrap gap-4">
+        <a href={localePath(locale, '/')} class="btn btn-primary">{n.home}</a>
+        <a href={localePath(locale, '/blog')} class="btn btn-ghost">{n.blog}</a>
+        <a href={localePath(locale, '/projects')} class="btn btn-ghost">{n.projects}</a>
+        <a href={localePath(locale, '/legal')} class="btn btn-ghost">{n.legal}</a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

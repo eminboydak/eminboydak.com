@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Alegreya:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400..700&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@plugin "daisyui" {
+  themes: onyx --default --prefersdark;
+}
+
+@plugin "daisyui/theme" {
+  name: onyx;
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+  /* base — from daisyUI "black" theme */
+  --color-base-100: oklch(0% 0 0);
+  --color-base-200: oklch(19% 0 0);
+  --color-base-300: oklch(22% 0 0);
+  --color-base-content: oklch(87.609% 0 0);
+  /* custom accents */
+  --color-primary: #eed49f;
+  --color-primary-content: #1a1a1a;
+  --color-secondary: #7dc4e4;
+  --color-secondary-content: #1a1a1a;
+  --color-accent: #c6a0f6;
+  --color-accent-content: #1a1a1a;
+  --color-neutral: oklch(35% 0 0);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: #7dc4e4;
+  --color-info-content: #1a1a1a;
+  --color-success: #a6da95;
+  --color-success-content: #1a1a1a;
+  --color-warning: #e0af68;
+  --color-warning-content: #1a1a1a;
+  --color-error: #ed8796;
+  --color-error-content: #1a1a1a;
+  /* black theme radius */
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0rem;
+  --size-selector: .25rem;
+  --size-field: .25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --font-display: "Cinzel", serif;
+  --font-body: "Alegreya", serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-base-100 text-base-content font-body antialiased;
+    animation: page-in 0.45s ease-out both;
+  }
+  ::selection {
+    background: oklch(from var(--color-primary) l c h / 0.3);
+  }
+  @keyframes page-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-1 { transition-delay: 0.06s; }
+.reveal-2 { transition-delay: 0.12s; }
+.reveal-3 { transition-delay: 0.18s; }
+.reveal-4 { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}

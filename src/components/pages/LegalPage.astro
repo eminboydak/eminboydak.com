@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../Section.astro';
+import type { Dictionary } from '../../i18n/tr';
+import type { Locale } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  t: Dictionary;
+}
+
+const { locale, t } = Astro.props;
+const l = t.legal;
+---
+
+<BaseLayout locale={locale} t={t} title={t.meta.legal} description={t.meta.legalDescription}>
+  <Section id="legal" title={l.title} sub={l.sub}>
+    <div class="max-w-2xl space-y-12">
+      <p class="text-lg text-base-content/70">{l.lead}</p>
+      {l.sections.map((s) => (
+        <section>
+          <h2 class="font-display font-bold text-xl mb-3">{s.title}</h2>
+          <p class="text-base-content/70 leading-relaxed">
+            {s.body}
+            {s.email && (
+              <>
+                {' '}
+                <a href={`mailto:${s.email}`} class="text-primary hover:underline">{s.email}</a>
+              </>
+            )}
+          </p>
+        </section>
+      ))}
+    </div>
+  </Section>
+</BaseLayout>

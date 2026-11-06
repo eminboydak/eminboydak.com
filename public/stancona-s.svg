@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Stancona S monogram — MorrisRoman S outlines, single-color gold #eed49f, transparent bg, square viewBox (brand mark; source: codex 04-brand/visual/assets/app-icons) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Stancona S monogram</title>
+  <g transform="translate(118.7,86) scale(0.5067) translate(-9,659) scale(1,-1)" fill="#eed49f">
+    <path d="M551 218 Q551 116 475 52 Q401 -12 296 -12 Q186 -12 97 72 Q9 156 9 265 Q76 236 144 218 L126 157 Q126 104 186 67 Q238 34 296 34 Q359 34 400.5 75.0 Q442 116 442 179 Q442 289 357 289 Q321 289 256 273 Q192 257 156 257 Q108 257 75 337 Q48 402 48 458 Q48 545 118 603 Q185 659 272 659 Q340 659 411.0 615.0 Q482 571 507 512 Q442 490 396 490 Q375 614 264 614 Q210 614 176.0 582.0 Q142 550 142 497 Q142 453 170 421 Q199 389 241 389 Q280 389 353 404 L466 427 Q506 400 530 333 Q551 274 551 218 Z"/>
+  </g>
+</svg>

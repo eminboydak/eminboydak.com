@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#000000"/>
+  <rect x="24" y="24" width="1152" height="582" fill="none" stroke="#2e2e2e" stroke-width="2"/>
+  <svg x="110" y="140" width="350" height="350" viewBox="0 0 512 512">
+    <g transform="translate(118.7,86) scale(0.5067) translate(-9,659) scale(1,-1)" fill="#eed49f">
+      <path d="M551 218 Q551 116 475 52 Q401 -12 296 -12 Q186 -12 97 72 Q9 156 9 265 Q76 236 144 218 L126 157 Q126 104 186 67 Q238 34 296 34 Q359 34 400.5 75.0 Q442 116 442 179 Q442 289 357 289 Q321 289 256 273 Q192 257 156 257 Q108 257 75 337 Q48 402 48 458 Q48 545 118 603 Q185 659 272 659 Q340 659 411.0 615.0 Q482 571 507 512 Q442 490 396 490 Q375 614 264 614 Q210 614 176.0 582.0 Q142 550 142 497 Q142 453 170 421 Q199 389 241 389 Q280 389 353 404 L466 427 Q506 400 530 333 Q551 274 551 218 Z"/>
+    </g>
+  </svg>
+  <text x="520" y="330" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="bold" fill="#e6e6e6">emin boydak</text>
+  <text x="520" y="395" font-family="'Courier New', monospace" font-size="32" fill="#eed49f">systems engineer</text>
+  <text x="520" y="445" font-family="'Courier New', monospace" font-size="24" fill="#8a8a8a">eminboydak.com</text>
+</svg>
