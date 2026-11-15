@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SearchBox from '../components/SearchBox.tsx';
 import type { Dictionary } from '../i18n/tr';
 import type { Locale } from '../i18n';
 import { localePath, stripLocale, SITE_URL, FAVICON_VERSION } from '../i18n';
@@ -118,6 +119,7 @@ const personSchema = {
           >
             {t.nav.switchLabel}
           </a>
+          <SearchBox t={t} client:load />
         </nav>
       </div>
     </header>

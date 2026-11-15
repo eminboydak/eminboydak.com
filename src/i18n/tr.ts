@@ -17,6 +17,14 @@ export const tr = {
     switchLang: 'en',
     switchLabel: 'EN',
   },
+  search: {
+    open: 'ara',
+    placeholder: 'yazılarda ara',
+    results: '{n} sonuç',
+    empty: 'eşleşme yok',
+    hint: 'Enter aç · Esc kapat',
+    unavailable: 'arama dizini üretim derlemesinde oluşur',
+  },
   footer: {
     legal: 'legal',
     stack: 'astro · tailwind · daisyui',

@@ -19,6 +19,14 @@ export const en: Dictionary = {
     switchLang: 'tr',
     switchLabel: 'TR',
   },
+  search: {
+    open: 'search',
+    placeholder: 'search posts',
+    results: '{n} results',
+    empty: 'no matches',
+    hint: 'Enter to open · Esc to close',
+    unavailable: 'search index is available in production builds',
+  },
   footer: {
     legal: 'legal',
     stack: 'astro · tailwind · daisyui',
