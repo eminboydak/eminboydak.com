@@ -16,8 +16,18 @@ export const en: Dictionary = {
   nav: {
     projects: 'projects',
     blog: 'blog',
+    podcast: 'podcast',
     switchLang: 'tr',
     switchLabel: 'TR',
+  },
+  podcast: {
+    crumb: 'home / podcast',
+    lede: 'New episodes show up here. Published on YouTube and Spotify.',
+    upcoming: 'coming soon',
+    episode: 'episode{n}',
+    subscribe: 'subscribe',
+    emptyEpisodes: 'The first episode is in the works — it will land here.',
+    emptyShows: 'The first show is in the works.',
   },
   series: {
     crumb: 'series',

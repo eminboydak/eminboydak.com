@@ -14,8 +14,18 @@ export const tr = {
   nav: {
     projects: 'projeler',
     blog: 'blog',
+    podcast: 'podcast',
     switchLang: 'en',
     switchLabel: 'EN',
+  },
+  podcast: {
+    crumb: 'ana sayfa / podcast',
+    lede: 'Yeni bölüm çıktığında burada listelenir. Yayın: YouTube ve Spotify.',
+    upcoming: 'yakında',
+    episode: 'bölüm{n}',
+    subscribe: 'abone ol',
+    emptyEpisodes: 'İlk bölüm hazırlanıyor — çıktığında bu listeye düşecek.',
+    emptyShows: 'İlk show hazırlanıyor.',
   },
   series: {
     crumb: 'seri',

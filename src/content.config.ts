@@ -39,4 +39,38 @@ const postsEn = defineCollection({
   schema: postSchema,
 });
 
-export const collections = { postsTr, postsEn, seriesTr, seriesEn };
+const showSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  youtube: z.string().url().optional(),
+  spotify: z.string().url().optional(),
+});
+
+const episodeSchema = z.object({
+  show: z.string(),
+  title: z.string(),
+  publishDate: z.coerce.date(),
+  number: z.number(),
+  duration: z.string().optional(),
+  youtubeId: z.string().optional(),
+  spotifyUrl: z.string().url().optional(),
+});
+
+const showsTr = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/shows/tr' }),
+  schema: showSchema,
+});
+const showsEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/shows/en' }),
+  schema: showSchema,
+});
+const episodesTr = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/episodes/tr' }),
+  schema: episodeSchema,
+});
+const episodesEn = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/episodes/en' }),
+  schema: episodeSchema,
+});
+
+export const collections = { postsTr, postsEn, seriesTr, seriesEn, showsTr, showsEn, episodesTr, episodesEn };
