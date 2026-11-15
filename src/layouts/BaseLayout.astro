@@ -63,6 +63,12 @@ const personSchema = {
     <link rel="alternate" hreflang="tr" href={trUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
     <link rel="alternate" hreflang="x-default" href={trUrl} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${t.meta.home} — ${t.meta.blog} (RSS)`}
+      href={`${SITE_URL}${isEn ? '/en/rss.xml' : '/rss.xml'}`}
+    />
     <!-- Open Graph -->
     <meta property="og:site_name" content="emin boydak" />
     <meta property="og:title" content={pageTitle} />
