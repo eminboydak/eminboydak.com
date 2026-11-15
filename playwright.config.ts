@@ -7,7 +7,7 @@ export default defineConfig({
   workers: 1,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: 'http://localhost:4322',
     trace: 'on-first-retry',
   },
   projects: [
@@ -16,8 +16,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['iPhone 13'], browserName: 'chromium' } },
   ],
   webServer: {
-    command: 'npm run dev -- --port 4321',
-    url: 'http://localhost:4321',
+    command: 'npm run dev -- --port 4322',
+    url: 'http://localhost:4322',
     reuseExistingServer: true,
     timeout: 60_000,
   },

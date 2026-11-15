@@ -14,7 +14,7 @@ test.describe('landing page', () => {
   });
 
   test('hero copy is correct', async ({ page }) => {
-    await expect(page.locator('h1')).toContainText('Sistem mühendisiyim');
+    await expect(page.locator('main h1')).toContainText('Sistem mühendisiyim');
     await expect(page.locator('p').first()).toContainText('elektrik-elektronik mühendisi');
   });
 
@@ -47,11 +47,11 @@ test.describe('landing page', () => {
   test('nav links navigate to pages', async ({ page }) => {
     await page.locator('nav a[href="/projects"]').click();
     await expect(page).toHaveURL(/\/projects$/);
-    await expect(page.locator('h1')).toContainText('projeler');
+    await expect(page.getByRole('heading', { name: /Stancona/ })).toBeVisible();
 
     await page.locator('nav a[href="/blog"]').click();
     await expect(page).toHaveURL(/\/blog$/);
-    await expect(page.locator('h1')).toContainText('blog');
+    await expect(page.locator('main article').first()).toBeVisible();
   });
 
   test('nav active state highlights current page', async ({ page }) => {

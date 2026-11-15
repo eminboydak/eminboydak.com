@@ -18,6 +18,7 @@ test.describe('search', () => {
     await page.goto('/blog');
     await page.getByRole('button', { name: 'ara' }).click();
     await expect(page.locator('[role="dialog"]')).toBeVisible();
+    await expect(page.locator('[role="dialog"] input')).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(page.locator('[role="dialog"]')).toHaveCount(0);
   });

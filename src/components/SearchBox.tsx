@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Dictionary } from '../i18n/tr';
 
+type SearchLabels = Dictionary['search'];
+
 interface PagefindResultData {
   url: string;
   meta?: { title?: string };
@@ -11,12 +13,12 @@ interface PagefindModule {
 type SearchResult = { title: string; url: string; sub: string };
 
 interface Props {
-  t: Dictionary;
+  labels: SearchLabels;
 }
 
 const PAGEFIND_PATH = '/pagefind/pagefind.js';
 
-export default function SearchBox({ t }: Props) {
+export default function SearchBox({ labels }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -77,14 +79,14 @@ export default function SearchBox({ t }: Props) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={t.search.open}
+        aria-label={labels.open}
         class="inline-flex items-center gap-1.5 text-xs border border-base-300 px-2 py-0.5 font-mono text-base-content/60 hover:text-primary hover:border-primary transition-colors"
       >
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.3-4.3" />
         </svg>
-        {t.search.open}
+        {labels.open}
       </button>
 
       {open && (
@@ -102,7 +104,7 @@ export default function SearchBox({ t }: Props) {
                 ref={inputRef}
                 type="text"
                 value={query}
-                placeholder={t.search.placeholder}
+                placeholder={labels.placeholder}
                 onInput={(e) => setQuery(e.currentTarget.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && results.length > 0) window.location.href = results[0].url;
@@ -111,7 +113,7 @@ export default function SearchBox({ t }: Props) {
               />
               {searched && (
                 <span class="font-mono text-[11px] text-base-content/50 shrink-0">
-                  {t.search.results.replace('{n}', String(results.length))}
+                  {labels.results.replace('{n}', String(results.length))}
                 </span>
               )}
               <button type="button" aria-label="close" onClick={() => setOpen(false)} class="text-base-content/50 hover:text-primary shrink-0">
@@ -123,9 +125,9 @@ export default function SearchBox({ t }: Props) {
             </div>
 
             <div class="max-h-[50vh] overflow-y-auto">
-              {indexReady === false && <div class="px-4 py-5 font-mono text-xs text-base-content/50">{t.search.unavailable}</div>}
+              {indexReady === false && <div class="px-4 py-5 font-mono text-xs text-base-content/50">{labels.unavailable}</div>}
               {indexReady !== false && searched && results.length === 0 && (
-                <div class="px-4 py-5 text-sm text-base-content/60">{t.search.empty}</div>
+                <div class="px-4 py-5 text-sm text-base-content/60">{labels.empty}</div>
               )}
               {results.map((r) => (
                 <a
@@ -147,7 +149,7 @@ export default function SearchBox({ t }: Props) {
             </div>
 
             <div class="flex gap-4 px-4 py-2.5 border-t border-base-300 font-mono text-[11px] text-base-content/50">
-              <span>{t.search.hint}</span>
+              <span>{labels.hint}</span>
             </div>
           </div>
         </div>
