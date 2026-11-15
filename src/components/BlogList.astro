@@ -5,6 +5,7 @@ import type { CollectionEntry } from 'astro:content';
 import type { Dictionary } from '../i18n/tr';
 import type { Locale } from '../i18n';
 import { localePath } from '../i18n';
+import { getSeriesContext } from '../lib/series';
 
 interface Props {
   page: Page<CollectionEntry<'posts'>>;
@@ -17,6 +18,8 @@ const { page, locale, t, activeTag } = Astro.props;
 const b = t.blog;
 const blogBase = localePath(locale, '/blog');
 const tags = ['linux', 'git', 'arch', 'matlab', 'dotfiles'];
+
+const seriesCtxs = await Promise.all(page.data.map((p) => getSeriesContext(locale, p)));
 
 const intlLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
 const dayFmt = new Intl.DateTimeFormat(intlLocale, { day: '2-digit' });
@@ -50,11 +53,11 @@ function readTime(entry: CollectionEntry<'posts'>): string {
 
   <!-- post list -->
   <div>
-    {page.data.map((p) => (
+    {page.data.map((p, i) => (
       <article class="grid grid-cols-[72px_1fr_auto] gap-6 items-center py-6 border-b border-base-300">
         <div class="flex flex-col items-center gap-0.5 leading-none">
-          <span class="font-display text-2xl font-bold text-base-content">{dayFmt.format(p.data.publishDate)}</span>
-          <span class="font-mono text-[10px] tracking-[0.18em] uppercase text-base-content/60">
+          <span class="day font-display text-2xl font-bold text-base-content">{dayFmt.format(p.data.publishDate)}</span>
+          <span class="month font-mono text-[10px] tracking-[0.18em] uppercase text-base-content/60">
             {monthFmt.format(p.data.publishDate)}
           </span>
           <span class="font-mono text-[10px] tracking-[0.18em] text-base-content/40">
@@ -69,8 +72,13 @@ function readTime(entry: CollectionEntry<'posts'>): string {
           </h2>
           <p class="text-sm text-base-content/70 max-w-2xl mb-2">{p.data.description}</p>
           <div class="flex flex-wrap gap-2">
-            {p.data.tags.filter((tag) => tag !== 'tr').map((tag, i) => (
-              <Badge variant={i === 0 ? 'primary' : 'default'}>{tag}</Badge>
+            {seriesCtxs[i] && (
+              <Badge variant="primary">
+                {t.series.badge} · {seriesCtxs[i].series.data.title} · {p.data.part}/{seriesCtxs[i].parts.length}
+              </Badge>
+            )}
+            {p.data.tags.filter((tag) => tag !== 'tr').map((tag, j) => (
+              <Badge variant={!seriesCtxs[i] && j === 0 ? 'primary' : 'default'}>{tag}</Badge>
             ))}
           </div>
         </div>

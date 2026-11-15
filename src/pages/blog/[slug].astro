@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Badge from '../../components/Badge.astro';
 import { tr } from '../../i18n/tr';
+import { getSeriesContext } from '../../lib/series';
 
 export async function getStaticPaths() {
   const posts = await getCollection('postsTr');
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const seriesCtx = await getSeriesContext('tr', post);
 
 const dateStr = [
   new Intl.DateTimeFormat('tr-TR', { day: '2-digit' }).format(post.data.publishDate),
@@ -39,6 +41,46 @@ const dateStr = [
           ))}
         </div>
       </div>
+      {seriesCtx && (
+        <div data-series-banner class="border border-base-300 bg-base-200 p-4 mb-10 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="font-mono text-[11px] text-primary">
+              {tr.series.partOf
+                .replace('{title}', seriesCtx.series.data.title)
+                .replace('{n}', String(post.data.part ?? ''))}
+            </div>
+            <div class="text-sm text-base-content/70 mt-1">
+              {seriesCtx.prev ? `${tr.series.prev}: ${seriesCtx.prev.data.title}` : ''}
+              {seriesCtx.prev && seriesCtx.next ? ' · ' : ''}
+              {seriesCtx.next ? `${tr.series.next}: ${seriesCtx.next.data.title}` : ''}
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-5 text-sm">
+            {seriesCtx.prev && (
+              <a
+                href={`/blog/${seriesCtx.prev.id}`}
+                class="inline-flex items-center gap-1.5 text-base-content/70 hover:text-primary transition-colors"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M19 12H5" /><path d="m12 19-7-7 7-7" />
+                </svg>
+                {tr.series.prev}
+              </a>
+            )}
+            {seriesCtx.next && (
+              <a
+                href={`/blog/${seriesCtx.next.id}`}
+                class="inline-flex items-center gap-1.5 text-base-content/70 hover:text-primary transition-colors"
+              >
+                {tr.series.next}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+      )}
       <div class="prose prose-invert prose-lg max-w-none font-body">
         <Content />
       </div>

@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Badge from '../../../../components/Badge.astro';
+import { en } from '../../../../i18n/en';
+import { localePath } from '../../../../i18n';
+import { getAllSeries } from '../../../../lib/series';
+
+export async function getStaticPaths() {
+  const entries = await getAllSeries('en');
+  return entries.map(({ series, parts }) => ({
+    params: { slug: series.id },
+    props: { series, parts },
+  }));
+}
+
+const { series, parts } = Astro.props;
+
+const monthYear = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
+const countLabel = en.series.parts.replace('{n}', String(parts.length));
+---
+
+<BaseLayout locale="en" t={en} title={series.data.title} description={series.data.description}>
+  <section class="border-b border-base-300">
+    <div class="max-w-[760px] mx-auto px-6 py-[72px]">
+      <a href={localePath('en', '/blog')} class="font-mono text-xs text-base-content/60 hover:text-primary transition-colors">
+        {en.nav.blog} / {en.series.crumb} / {series.id}
+      </a>
+      <h1 class="font-display font-extrabold text-4xl md:text-5xl mt-6 mb-4 leading-tight">
+        {series.data.title}
+      </h1>
+      <p class="text-base-content/70 text-lg max-w-2xl mb-6">{series.data.description}</p>
+      <div class="mb-10">
+        <Badge>{countLabel}</Badge>
+      </div>
+
+      <div class="border-t border-base-300">
+        {parts.map((p) => (
+          <a
+            href={localePath('en', `/blog/${p.id}`)}
+            class="flex items-center gap-4 py-4 border-b border-base-300 group"
+          >
+            <span class="font-mono text-xs text-primary w-7 shrink-0">
+              {String(p.data.part ?? 0).padStart(2, '0')}
+            </span>
+            <span class="flex-1 text-lg font-medium text-base-content group-hover:text-primary transition-colors">
+              {p.data.title}
+            </span>
+            <span class="font-mono text-[11px] text-base-content/50 shrink-0">
+              {monthYear.format(p.data.publishDate)}
+            </span>
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              class="text-base-content/40 group-hover:text-primary shrink-0"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -19,6 +19,14 @@ export const en: Dictionary = {
     switchLang: 'tr',
     switchLabel: 'TR',
   },
+  series: {
+    crumb: 'series',
+    parts: '{n} parts',
+    partOf: 'This post · part {n} of the {title} series',
+    prev: 'previous part',
+    next: 'next part',
+    badge: 'series',
+  },
   search: {
     open: 'search',
     placeholder: 'search posts',

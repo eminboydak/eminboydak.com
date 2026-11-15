@@ -17,6 +17,14 @@ export const tr = {
     switchLang: 'en',
     switchLabel: 'EN',
   },
+  series: {
+    crumb: 'seri',
+    parts: '{n} parça',
+    partOf: 'Bu yazı · {title} serisinin {n}. parçası',
+    prev: 'önceki parça',
+    next: 'sonraki parça',
+    badge: 'seri',
+  },
   search: {
     open: 'ara',
     placeholder: 'yazılarda ara',
