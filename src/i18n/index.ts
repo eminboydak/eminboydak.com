@@ -5,7 +5,7 @@ export const dictionaries = { tr, en } as const;
 export type Locale = keyof typeof dictionaries;
 
 export const SITE_URL = 'https://eminboydak.com';
-export const FAVICON_VERSION = '3';
+export const FAVICON_VERSION = '4';
 
 /** Determine the active locale from the current pathname. */
 export function getLocale(pathname: string): Locale {

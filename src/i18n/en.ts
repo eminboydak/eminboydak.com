@@ -235,7 +235,7 @@ export const en: Dictionary = {
       },
       {
         title: 'Cookie policy',
-        body: 'This site does not use cookies. Visitor behaviour is not tracked, no analytics data is collected.',
+        body: 'This site uses a single cookie to remember your interface language (tr/en); your choice is stored for one year. Visitor behaviour is not tracked, no analytics data is collected, and there are no advertising cookies.',
       },
       {
         title: 'Copyright',

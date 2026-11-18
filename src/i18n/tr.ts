@@ -233,7 +233,7 @@ export const tr = {
       },
       {
         title: 'Çerez politikası',
-        body: 'Bu site çerez (cookie) kullanmaz. Ziyaretçi davranışı izlenmez, analitik veri toplanmaz.',
+        body: 'Bu site yalnızca arayüz dilinizi (tr/en) hatırlamak için bir çerez (cookie) kullanır; seçiminiz bir yıl boyunca saklanır. Ziyaretçi davranışı izlenmez, analitik veri toplanmaz, reklam çerezi yoktur.',
       },
       {
         title: 'Telif hakkı',

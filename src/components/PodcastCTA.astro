@@ -1,0 +1,51 @@
+---
+import { localePath } from '../i18n';
+
+interface Props {
+  locale: 'tr' | 'en';
+}
+const { locale } = Astro.props;
+
+const copy =
+  locale === 'tr'
+    ? {
+        label: 'PODCAST',
+        title: "Emin'in Seyir Defteri",
+        desc: 'Bir şeyleri düşünürken kayda almayı sevdiğim için açtığım sohbet defteri — bölüm bölüm, çoğu zaman tek başıma.',
+        cta: 'Podcast sayfasına git',
+        hint: 'Spotify · YouTube · Apple Podcasts · RSS',
+      }
+    : {
+        label: 'PODCAST',
+        title: "Emin'in Seyir Defteri",
+        desc: 'A spoken logbook I started because I love recording my thoughts while working through them — episode by episode, mostly solo.',
+        cta: 'Go to the podcast page',
+        hint: 'Spotify · YouTube · Apple Podcasts · RSS',
+      };
+---
+
+<a
+  href={localePath(locale, '/podcast/eminin-seyir-defteri')}
+  class="group block border border-base-300 bg-base-200/60 hover:border-primary transition-colors mt-10"
+>
+  <div class="flex items-center gap-5 p-5">
+    <img
+      src="/images/seyir-defteri-cover.jpg"
+      alt={copy.title}
+      width="96"
+      height="96"
+      class="w-24 h-24 shrink-0 border border-base-300 object-cover"
+      loading="lazy"
+    />
+    <div class="min-w-0">
+      <span class="font-mono text-[11px] text-primary">{copy.label}</span>
+      <p class="font-display font-bold text-lg mt-1">{copy.title}</p>
+      <p class="text-sm text-base-content/70 mt-1">{copy.desc}</p>
+      <span class="inline-flex items-center gap-2 text-sm text-primary mt-2.5">
+        {copy.cta}
+        <span class="transition-transform group-hover:translate-x-1">→</span>
+      </span>
+      <span class="block font-mono text-[10px] text-base-content/40 mt-1">{copy.hint}</span>
+    </div>
+  </div>
+</a>

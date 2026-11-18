@@ -4,20 +4,33 @@ import SearchBox from '../components/SearchBox.tsx';
 import type { Dictionary } from '../i18n/tr';
 import type { Locale } from '../i18n';
 import { localePath, stripLocale, SITE_URL, FAVICON_VERSION } from '../i18n';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
   locale: Locale;
   t: Dictionary;
 }
 
-const { title, description, locale, t } = Astro.props;
+const { title, description, ogImage, ogType = 'website', locale, t } = Astro.props;
 
 const route = stripLocale(Astro.url.pathname);
 const isEn = locale === 'en';
 const otherLocale: Locale = isEn ? 'tr' : 'en';
-const switchPath = localePath(otherLocale, route);
+// Blog slugs differ per locale: map to the twin post (same publishDate) so the
+// language switch never404s; fall back to the blog index when there is no twin.
+let switchPath = localePath(otherLocale, route);
+const blogMatch = route.match(/^\/blog\/([^/]+)$/);
+if (blogMatch) {
+  const targetPosts = await getCollection(isEn ? 'postsTr' : 'postsEn');
+  const currentPosts = await getCollection(isEn ? 'postsEn' : 'postsTr');
+  const current = currentPosts.find((p) => p.id === blogMatch[1]);
+  const twin = current && targetPosts.find((p) => +p.data.publishDate === +current.data.publishDate);
+  switchPath = twin ? localePath(otherLocale, `/blog/${twin.id}`) : localePath(otherLocale, '/blog');
+}
 const year = new Date().getFullYear();
 
 const nav = [
@@ -34,14 +47,14 @@ const pageDescription = description ?? t.meta.homeDescription;
 const canonical = isEn ? enUrl : trUrl;
 const ogLocale = locale === 'tr' ? 'tr_TR' : 'en_US';
 const ogLocaleAlternate = locale === 'tr' ? 'en_US' : 'tr_TR';
-const ogImage = `${SITE_URL}/og.png`;
+const ogImageUrl = ogImage ? (ogImage.startsWith('http') ? ogImage : SITE_URL + ogImage) : `${SITE_URL}/og.png`;
 
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Emin Boydak',
   url: SITE_URL,
-  image: ogImage,
+  image: ogImageUrl,
   sameAs: [
     'https://github.com/eminboydak',
     'https://linkedin.com/in/eminboydak',
@@ -76,8 +89,8 @@ const personSchema = {
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:locale:alternate" content={ogLocaleAlternate} />
     <!-- Twitter -->
@@ -93,6 +106,18 @@ const personSchema = {
     <link rel="shortcut icon" href={`/favicon.ico?v=${FAVICON_VERSION}`} />
     <link rel="apple-touch-icon" sizes="180x180" href={`/apple-touch-icon.png?v=${FAVICON_VERSION}`} />
     <title>{title ? `${title} · emin boydak` : 'emin boydak'}</title>
+  <script is:inline>
+    (function () {
+      var m = document.cookie.match(/(?:^|;\s*)locale=(tr|en)/);
+      if (m && m[1] === 'en' && location.pathname === '/') location.replace('/en');
+      document.addEventListener('click', function (e) {
+        var el = e.target instanceof Element ? e.target.closest('#lang-switch') : null;
+        if (!el) return;
+        var en = (el.getAttribute('href') || '').indexOf('/en') === 0;
+        document.cookie = '***' + (en ? 'en' : 'tr') + ';path=/;max-age=31536000;SameSite=Lax';
+      });
+    })();
+  </script>
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 bg-base-100/85 backdrop-blur border-b border-base-300">
@@ -115,6 +140,7 @@ const personSchema = {
             </a>
           ))}
           <a
+            id="lang-switch"
             href={switchPath}
             class="text-sm text-base-content/60 hover:text-primary transition-colors font-mono text-xs border border-base-300 px-2 py-0.5"
           >

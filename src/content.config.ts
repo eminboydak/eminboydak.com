@@ -1,5 +1,5 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 const postSchema = z
   .object({
@@ -11,7 +11,7 @@ const postSchema = z
     part: z.number().optional(),
   })
   .refine((d) => (d.series === undefined) === (d.part === undefined), {
-    message: 'series and part must be provided together',
+    message: "series and part must be provided together",
   });
 
 const seriesSchema = z.object({
@@ -20,22 +20,22 @@ const seriesSchema = z.object({
 });
 
 const seriesTr = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/series/tr' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/series/tr" }),
   schema: seriesSchema,
 });
 
 const seriesEn = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/series/en' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/series/en" }),
   schema: seriesSchema,
 });
 
 const postsTr = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/posts/tr' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts/tr" }),
   schema: postSchema,
 });
 
 const postsEn = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/posts/en' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts/en" }),
   schema: postSchema,
 });
 
@@ -44,33 +44,45 @@ const showSchema = z.object({
   description: z.string(),
   youtube: z.string().url().optional(),
   spotify: z.string().url().optional(),
+  apple: z.string().url().optional(),
+  rss: z.string().url().optional(),
 });
 
 const episodeSchema = z.object({
   show: z.string(),
   title: z.string(),
-  publishDate: z.coerce.date(),
+  publishDate: z.string(),
   number: z.number(),
-  duration: z.string().optional(),
-  youtubeId: z.string().optional(),
+  duration: z.string(),
+  description: z.string().optional(),
   spotifyUrl: z.string().url().optional(),
+  youtubeId: z.string().optional(),
 });
 
 const showsTr = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/shows/tr' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/shows/tr" }),
   schema: showSchema,
 });
 const showsEn = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/shows/en' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/shows/en" }),
   schema: showSchema,
 });
 const episodesTr = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/episodes/tr' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/episodes/tr" }),
   schema: episodeSchema,
 });
 const episodesEn = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/episodes/en' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/episodes/en" }),
   schema: episodeSchema,
 });
 
-export const collections = { postsTr, postsEn, seriesTr, seriesEn, showsTr, showsEn, episodesTr, episodesEn };
+export const collections = {
+  postsTr,
+  postsEn,
+  seriesTr,
+  seriesEn,
+  showsTr,
+  showsEn,
+  episodesTr,
+  episodesEn,
+};

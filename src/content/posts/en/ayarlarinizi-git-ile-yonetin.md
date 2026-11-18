@@ -8,6 +8,7 @@ tags: ["en", "linux", "git", "dotfiles"]
 Git is not only for controlling the code you write; it is also a great tool for managing and storing your config files. These files, usually found in your home directory, are called config files. Since we don't want to put the entire home directory into a repository, we can use something called a bare git repository.
 
 ## Initial setup
+
 First, let's create a bare git repository:
 
 ```bash
@@ -62,6 +63,7 @@ git dotfiles push
 Now you can add all the settings files you want.
 
 ## Syncing settings across devices
+
 You can now use the remote repository to sync your settings across many devices. On a new device, you can simply clone the remote repository:
 
 ```bash

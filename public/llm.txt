@@ -1,0 +1,31 @@
+# emin boydak
+
+> Emin Boydak is a systems engineer based in Istanbul, Turkey. He works on forward
+> deployment engineering, embedded systems and full-stack development, and writes about
+> systems, AI agents, TTRPG and field work. He is the founder of Stancona.
+
+This site is bilingual. Turkish is the default locale at `/`; English lives under `/en/`.
+
+## Blog
+
+- [Blog (Turkish)](https://eminboydak.com/blog): Notes on systems, embedded, networking and field work
+- [Blog (English)](https://eminboydak.com/en/blog)
+- Featured: [Are we context-gathering mechanisms too?](https://eminboydak.com/en/blog/are-we-context-gathering-mechanisms-too) — the written version of the first podcast episode
+
+## Podcast
+
+- [Emin'in Seyir Defteri (show page, Turkish)](https://eminboydak.com/podcast/eminin-seyir-defteri): A spoken logbook — spontaneous conversations on AI agents, memory, observation and life
+- [Podcast index (English)](https://eminboydak.com/en/podcast)
+- Episode1 RSS: https://anchor.fm/s/11a46556c/podcast/rss
+- Available on Spotify and YouTube (links on the show pages)
+
+## Pages
+
+- [Projects](https://eminboydak.com/projects)
+- [Legal / privacy / cookie policy](https://eminboydak.com/legal)
+- [Home (Turkish)](https://eminboydak.com/) · [Home (English)](https://eminboydak.com/en)
+
+## Optional
+
+- [Sitemap](https://eminboydak.com/sitemap-index.xml)
+- [RSS feed](https://eminboydak.com/rss.xml)
